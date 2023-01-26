@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Heebo&display=swap');
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Heebo', sans-serif;
+}
+
+/* Calculator container */
+
+.container {
+    width: 400px;
+}
+
+/* Calculator top */
+
+.calc-top {
+    background-color: #515151;
+    height: 150px;
+    border: 2px solid black;
+    border-bottom: none;
+    border-radius: 25px 25px 0 0;
+    box-shadow: -17px 17px 5px rgba(0, 0, 0, 0.25);
+}
+
+.calc-top-inner {
+    background-color: #8a8987;
+    border: 2px solid black;
+    width: 350px;
+    height: 90px;
+    margin: 40px auto;
+}
+
+.display {
+    background-color: #f5f2df;
+    border: 2px solid black;
+    width: 300px;
+    height: 70px;
+    margin: 8px auto;
+}
+
+#output {
+    font-size: 65px;
+    text-align: right;
+    margin: -10px 0 0;
+    padding-right: 4px;
+}
+
+/* Calculator bottom */
+
+.calc-bot {
+    background-color: #e4e4e4;
+    height: 320px;
+    border: 2px solid black;
+    border-radius:  0 0 25px 25px;
+    box-shadow: -17px 17px 5px rgba(0, 0, 0, 0.25);
+}
+
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    width: 340px;
+    margin: 30px auto;
+    justify-content: center;
+}
+
+button {
+    width: 70px;
+    height: 40px;
+    border: 2px solid black;
+    background-color: #b8b8b8;
+    color: #ffffff;
+    font-size: 24px;
+    border-radius: 5px;
+}
+
+button:active {
+    filter: brightness(115%);
+}
+
+#clear {
+    width: 240px;
+    background-color: #de3c4c;
+}
+
+.button-right {
+    background-color: #8a8987;
+}

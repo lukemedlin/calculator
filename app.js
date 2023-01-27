@@ -1,106 +1,114 @@
-let outputDisplay = document.querySelector("#output");
-let buttons = document.querySelectorAll("button");
-let pressed = "";
+const output = document.querySelector('#output');
+const operandBtns = document.querySelectorAll('.operand');
+const operatorBtns = document.querySelectorAll('.operator');
+const equalsBtn = document.querySelector("#equals");
+const clearBtn = document.querySelector("#clear");
+const negateBtn = document.querySelector("#negate");
+const decimalBtn = document.querySelector("#decimal");
 
-let output1 = "";
-let output2 = "";
-let output3 = "";
-let operation;
+let num1 = '';
+let num2 = '';
+let currentOperator = null;
 
-buttons.forEach(button => button.addEventListener('click', buttonClick));
+equalsBtn.addEventListener('click', equals);
+clearBtn.addEventListener('click', clearAll);
+negateBtn.addEventListener('click', setNegation);
+decimalBtn.addEventListener('click', appendDecimal);
+operatorBtns.forEach(btn => btn.addEventListener('click', setOperator));
+operandBtns.forEach(btn => btn.addEventListener('click', appendOperand));
 
-function buttonClick(e) {
-    pressed = e.currentTarget.id;
-    let input;
-
-    switch (pressed) {
-        case "zero":
-            input = 0;
-            break;
-        case "one":   
-            input = 1; 
-            break;
-        case "two":   
-            input = 2; 
-            break;
-        case "three":
-            input = 3;
-            break;
-        case "four":
-            input = 4;
-            break;
-        case "five":  
-            input = 5; 
-            break; 
-        case "six":   
-            input = 6; 
-            break;
-        case "seven":
-            input = 7;
-            break;
-        case "eight":
-            input = 8;
-            break;
-        case "nine":    
-            input = 9;
-            break;
-        case "clear":
-            clearOutput();
-            return;
-        case "add":
-            input = "add";
-            break;
-        case "subtract":
-            input = "subtract";
-            break;
-        case "multiply":
-            input = "multiply";
-            break;
-        case "divide":
-            input = "divide";
-            break;
-        case "equals":
-            input = "equals"
-            break;
-    }
-
-    if (input >= 0 && input <= 9 ) {
-        output1 += input;
-        outputDisplay.textContent = output1;
-    } else if (input === "add") {
-        output2 = output1;
-        output1 = "";
-        operation = "add";
-    } else if (input === "subtract") {
-        output2 = output1;
-        output1 = "";
-        operation = "subtract";
-    } else if (input === "equals") {
-        if (operation === "add") {
-            if (!output3) {
-                output3 = Number(output1) + Number(output2);
-            } else {
-                output3 = Number(output1) + Number(output3);
-            }
-            outputDisplay.textContent = output3;
-        } else if (operation === "subtract") {
-            if (!output3) {
-                output3 = Number(output2) - Number(output1);
-            } else {
-                output3 = Number(output3) - Number(output1);
-            }
-            outputDisplay.textContent = output3;
-        }
-    }
-
-    
-
+function appendOperand() {
+    num1 += this.textContent;
+    output.textContent = num1;
+    checkOverflow(num1.length);
 }
 
-function clearOutput() {
-    output1 = "";
-    output2 = "";
-    output3 = "";
-    operation = "";
-    outputDisplay.textContent = "0";
+function appendDecimal() {
+    if (!output.textContent.includes('.')) {
+        output.textContent += '.';
+        num1 = output.textContent;
+    }
+}
+
+function setOperator() {
+    if (currentOperator) {
+        equals();
+    }
+    num2 = output.textContent;
+    num1 = '';
+    currentOperator = this.textContent;
+}
+
+function equals() {
+    if (num1 == 0 && currentOperator === '/') {
+        divideZero();
+        return; 
+    }
+    
+    output.textContent = round(evaluate(currentOperator, num1, num2));
+    checkOverflow(output.textContent.length);
+}
+
+function evaluate(operator, a, b) {
+    a = Number(a);
+    b = Number(b);
+
+    switch (operator) {
+        case '+':
+            return add(a, b);;
+        case '-':
+            return subtract(a, b );
+        case '*':
+            return multiply(a, b);
+        case '/':
+            return divide(a, b);
+    }
+}
+
+function add(a, b) {
+    return a + b;
+}
+
+function subtract(a, b) {
+    return b - a;
+}
+
+function multiply(a, b) {
+    return a * b;
+}
+
+function divide(a, b) {
+    return b / a;
+}
+
+function clearAll() {
+    num1 = '';
+    num2 = '';
+    currentOperator = null;
+    output.textContent = 0;
+}
+
+function divideZero() {
+    num1 = '';
+    num2 = '';
+    currentOperator = null;
+    output.textContent = "Can't / 0";
+}
+
+function checkOverflow(length) {
+    if (length > 8) {
+        num1 = '';
+        num2 = '';
+        currentOperator = null;
+        output.textContent = "overflow";
+    }
+}
+
+function round(a) {
+    return Math.round(a * 100) / 100;
+}
+
+function setNegation() {
+    num1 *= -1;
+    output.textContent *= -1;
 }
